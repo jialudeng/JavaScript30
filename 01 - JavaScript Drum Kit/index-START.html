@@ -59,6 +59,24 @@
 
 <script>
 
+  function playAudio(e) {
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+    if (!audio) return; // terminates if key pressed is not associated with an audio file
+    key.classList.add('playing');
+    audio.currentTime = 0; // restarted the timer for audio 
+    audio.play();
+  }
+
+  function removeTransition(e) {
+    if (e.propertyName != 'transform') return; // skip it if it's not transform
+    console.log(this);
+    this.classList.remove('playing')
+  }
+
+  const keys = Array.from(document.querySelectorAll('.key')); // array of key divs
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+  window.addEventListener('keydown', playAudio);
 </script>
 
 
